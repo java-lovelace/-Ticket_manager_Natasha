@@ -48,13 +48,15 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return false;
     }
 
+
+    //Necesitamos esta parte
     @Override
     public List<Usuario> Todos() {
         List<Usuario> Lista = new ArrayList<>();
 
         return Lista;
     }
-
+    // Encontrar por Id necesario
     @Override
     public Usuario EncontrarPorId(int id) {
         return null;
@@ -65,6 +67,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
     public List<Rol> EncontrarRol(String nombre) {
         return List.of();
     }
+
 
     @Override
     public Usuario EncontrarEmail(String correo) {
