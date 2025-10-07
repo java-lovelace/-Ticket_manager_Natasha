@@ -1,9 +1,11 @@
 package dao;
 
+import domain.Rol;
 import domain.Usuario;
 
 import java.util.List;
 
 public interface UsuarioDao extends CRUD<Usuario>{
-    List<Usuario> findByRol(String rol);
+    List<Rol> EncontrarRol(String nombre);
+    Usuario EncontrarEmail(String correo);
 }

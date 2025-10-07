@@ -2,10 +2,10 @@ package dao;
 import java.util.List;
 
 public interface CRUD<T> {
-    boolean insert (T obj);
-    boolean update (T obj);
-    boolean delete (int obj);
-    List<T> findAll();
-    T findById(int id);
+    boolean Crear (T obj);
+    boolean Actualizar (T obj);
+    boolean Eliminar (int obj);
+    List<T> Todos();
+    T EncontrarPorId(int id);
 
 }

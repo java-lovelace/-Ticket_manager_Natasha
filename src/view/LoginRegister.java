@@ -19,8 +19,8 @@ public class LoginRegister {
             if (option == null) break;
 
             switch (option){
-                case "1"-> ;
-                case "2" -> ;
+                case "1"-> JOptionPane.showMessageDialog(null, "s");
+                case "2" -> JOptionPane.showMessageDialog(null, "s");
                 case "3"-> JOptionPane.showMessageDialog(null, "Saliendo del sistema");
                 default -> JOptionPane.showMessageDialog(null, "Opcion no valida");
             }
