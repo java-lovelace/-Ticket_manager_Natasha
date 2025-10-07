@@ -2,6 +2,7 @@ package service;
 
 
 import dao.UsuarioDao;
+import dao.impl.UsuarioDaoImpl;
 import domain.Usuario;
 
 public class UsuarioServiceImpl implements UsuarioService {

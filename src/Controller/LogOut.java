@@ -3,12 +3,11 @@ package Controller;
 import dao.UsuarioDao;
 import dao.impl.UsuarioDaoImpl;
 import domain.Usuario;
-import service.UsuarioService;
 import service.UsuarioServiceImpl;
 
 import javax.swing.*;
 
-public class LoginRegister {
+public class LogOut {
 
     public static void Login(){
         String correo = JOptionPane.showInputDialog("Correo: ");
