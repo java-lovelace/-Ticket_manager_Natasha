@@ -7,6 +7,7 @@ import domain.Estado;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -52,5 +53,29 @@ public class EstadoDaoImpl implements EstadoDao {
     @Override
     public Estado EncontrarPorId(int id) {
         return null;
+    }
+
+
+    @Override
+    public Estado findByNombre(String nombre) {
+        Estado estado = null;
+        String sql = "SELECT * FROM Estados WHERE nombre=?";
+
+        try (Connection conn = ConfigDB.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                estado = new Estado(
+                        rs.getInt("id_estado"),
+                        rs.getString("nombre")
+                );
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "❌ Error al buscar estado por nombre: " + e.getMessage());
+        }
+        return estado;
     }
 }
