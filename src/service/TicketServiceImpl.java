@@ -1,29 +1,30 @@
 package service;
 
 
+import dao.EstadoDao;
 import dao.TicketDao;
-import dao.UsuarioDao;
-import dao.impl.UsuarioDaoImpl;
+import dao.impl.EstadoDaoImpl;
+import dao.impl.TicketDaoImpl;
+import domain.Estado;
 import domain.Ticket;
-import domain.Usuario;
+
+
+import java.time.LocalDateTime;
 
 public class TicketServiceImpl implements TicketService {
     private TicketDao ticketDao = new TicketDaoImpl();
-    private UsuarioDao usuarioDao = new UsuarioDaoImpl();
+    private EstadoDao estadoDao = new EstadoDaoImpl();
+
 
     @Override
-    public boolean asignarTicket(int id_ticket, int id_usuario) {
-
-        Usuario usuario = usuarioDao.EncontrarPorId(id_usuario);
-
-        return ticketDao.asignarTicket(id_ticket, id_usuario);
+    public void asignarTicket(int id_ticket, int id_usuario) {
+        ticketDao.asignarTicket(id_ticket, id_usuario);
     }
 
-    private EstadoDao estadoDao = new EstadoDaoImpl(); // si lo tienes
 
     @Override
     public Ticket cambiarEstado(int id_ticket) {
-        Ticket ticket = ticketDao.findById(id_ticket);
+        Ticket ticket = ticketDao.EncontrarPorId(id_ticket);
 
         if (ticket == null) {
             System.out.println("Ticket no encontrado.");
@@ -35,10 +36,10 @@ public class TicketServiceImpl implements TicketService {
 
         switch (estadoActual.toUpperCase()) {
             case "ABIERTO":
-                nuevoEstado = estadoDao.obtenerPorNombre("EN_PROCESO");
+                nuevoEstado = estadoDao.findByNombre("EN_PROCESO");
                 break;
             case "EN_PROCESO":
-                nuevoEstado = estadoDao.obtenerPorNombre("CERRADO");
+                nuevoEstado = estadoDao.findByNombre("CERRADO");
                 break;
             case "CERRADO":
                 System.out.println("El ticket ya está cerrado.");
@@ -51,7 +52,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.setEstado(nuevoEstado);
         ticket.setUpdated_at(LocalDateTime.now());
 
-        boolean actualizado = ticketDao.actualizar(ticket);
+        boolean actualizado = ticketDao.Actualizar(ticket);
 
         if (actualizado) {
             System.out.println("Estado actualizado a: " + nuevoEstado.getNombre());
