@@ -19,6 +19,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
         String sql = "INSERT INTO Usuarios (nombre, correo, pass, id_rol) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConfigDB.openConnection() ;
             PreparedStatement ps = conn.prepareStatement(sql)){
+
+            obj.getRol().setId_rol(1);
             ps.setString(1, obj.getNombre());
             ps.setString(2, obj.getCorreo());
             ps.setString(3, obj.getPass());
