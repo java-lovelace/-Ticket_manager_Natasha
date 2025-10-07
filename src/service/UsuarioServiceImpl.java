@@ -23,7 +23,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 return usuario;
             }
         }
-        return null;  
+        return null;
     }
 
 }
