@@ -2,13 +2,13 @@ package dao.impl;
 
 import config.ConfigDB;
 import dao.TicketDao;
+import domain.Categoria;
+import domain.Estado;
 import domain.Ticket;
+import domain.Usuario;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.List;
 
 public class TicketDaoImpl implements TicketDao {
@@ -25,6 +25,7 @@ public class TicketDaoImpl implements TicketDao {
         }catch (SQLException error){
             System.out.println("Error al asignar el ticket" + error.getMessage());
         }
+        ConfigDB.closeConnection();
     }
 
     @Override
@@ -49,6 +50,7 @@ public class TicketDaoImpl implements TicketDao {
             return true;
         } catch (SQLException e){
             JOptionPane.showMessageDialog(null, "Error al crear ticket: " + e.getMessage());
+           ConfigDB.closeConnection();
             return false;
         }
     }
@@ -70,7 +72,46 @@ public class TicketDaoImpl implements TicketDao {
 
     @Override
     public Ticket EncontrarPorId(int id) {
-        return null;
+        Ticket ticket = null;
+        String sql = "SELECT * FROM Tickets WHERE id_ticket = ?";
+        try(Connection conn = ConfigDB.openConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                ticket = new Ticket();
+                ticket.setId_ticket(rs.getInt("id_ticket"));
+                ticket.setTitulo(rs.getString("titulo"));
+                ticket.setDescripcion(rs.getString("descripcion"));
+                ticket.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                ticket.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+
+                Usuario reporter = new Usuario();
+                reporter.setId_usuario(rs.getInt("reporter_id"));
+                ticket.setReporter(reporter);
+
+                Usuario assignee = new Usuario();
+                assignee.setId_usuario(rs.getInt("assignee_id"));
+                ticket.setAssignee(assignee);
+
+                Categoria categoria = new Categoria();
+                categoria.setId_categoria(rs.getInt("id_categoria"));
+                ticket.setCategoria(categoria);
+
+                Estado estado = new Estado();
+                estado.setId_estado(rs.getInt("id_estado"));
+                ticket.setEstado(estado);
+
+            }
+
+        }catch (SQLException error){
+            System.out.println("Error al encontrar el ticket" + error.getMessage());
+        }
+
+    ConfigDB.closeConnection();
+    return ticket;
     }
 
     }
