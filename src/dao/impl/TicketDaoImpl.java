@@ -79,14 +79,14 @@ public class TicketDaoImpl implements TicketDao {
                 int rowsAffected = ps.executeUpdate();
 
                 if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(null, "✅ Ticket actualizado correctamente");
+                    JOptionPane.showMessageDialog(null, "Ticket actualizado correctamente");
                     return true;
                 } else {
-                    JOptionPane.showMessageDialog(null, "⚠️ No se encontró el ticket para actualizar");
+                    JOptionPane.showMessageDialog(null, "No se encontró el ticket para actualizar");
                     return false;
                 }
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "❌ Error al actualizar el ticket: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al actualizar el ticket: " + e.getMessage());
                 return false;
             } finally {
                 ConfigDB.closeConnection();
