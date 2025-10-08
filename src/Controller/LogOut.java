@@ -2,6 +2,7 @@ package Controller;
 
 import dao.UsuarioDao;
 import dao.impl.UsuarioDaoImpl;
+import domain.Rol;
 import domain.Usuario;
 import service.UsuarioServiceImpl;
 
@@ -22,6 +23,35 @@ public class LogOut {
         }else{
             JOptionPane.showMessageDialog(null, "Correo o contraseña incorrectos");
         }
+    }
+
+    public static void Register (){
+        String nombre = JOptionPane.showInputDialog("Nombre: ");
+        String correo = JOptionPane.showInputDialog("Correo: ");
+        String pass = JOptionPane.showInputDialog("Contraseña: ");
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setCorreo(correo);
+        usuario.setPass(pass);
+
+        Rol rol = new Rol();
+        rol.setId_rol(1);
+        usuario.setRol(rol);
+
+
+        UsuarioDao usuarioDao = new UsuarioDaoImpl();
+        UsuarioServiceImpl usuarioService = new UsuarioServiceImpl(usuarioDao);
+
+        boolean registrado = usuarioService.registrar(usuario);
+        if (registrado){
+            JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
+        }else{
+            JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario");
+        }
+
+
+
     }
 
 

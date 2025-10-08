@@ -26,11 +26,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
             ps.setString(3, obj.getPass());
             ps.setInt(4, obj.getRol().getId_rol());
             ps.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Usuario Registrado Correctamente");
             return true;
         } catch (SQLException e){
-            JOptionPane.showMessageDialog(null, "Error al registrar usuario: " + e.getMessage());
+            System.out.println("error" + e.getMessage());
             return false;
         }
 

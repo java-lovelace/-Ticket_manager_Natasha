@@ -22,7 +22,7 @@ public class LoginRegister {
 
             switch (option){
                 case "1"-> LogOut.Login();
-                case "2" -> JOptionPane.showMessageDialog(null, "s");
+                case "2" -> LogOut.Register();
                 case "3"-> JOptionPane.showMessageDialog(null, "Saliendo del sistema");
                 default -> JOptionPane.showMessageDialog(null, "Opcion no valida");
             }

@@ -5,6 +5,8 @@ import dao.UsuarioDao;
 import dao.impl.UsuarioDaoImpl;
 import domain.Usuario;
 
+import javax.swing.*;
+
 public class UsuarioServiceImpl implements UsuarioService {
 
     private UsuarioDao usuarioDao;
@@ -25,5 +27,21 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean registrar(Usuario usuario) {
+
+        if(usuario.getCorreo() == null || usuario.getPass() == null || usuario.getNombre() == null){
+            JOptionPane.showMessageDialog(null, "Datos incompletos en el registro");
+           return false;
+        }
+
+        Usuario existente = usuarioDao.EncontrarEmail(usuario.getCorreo());
+        if (existente != null){
+            JOptionPane.showMessageDialog(null, "El usuario ya existe");
+            return false;
+        }
+        return usuarioDao.Crear(usuario);
     }
 }
