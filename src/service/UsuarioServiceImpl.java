@@ -3,9 +3,13 @@ package service;
 
 import dao.UsuarioDao;
 import dao.impl.UsuarioDaoImpl;
+import domain.Rol;
 import domain.Usuario;
 
 import javax.swing.*;
+        import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class UsuarioServiceImpl implements UsuarioService {
 
@@ -34,7 +38,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         if(usuario.getCorreo() == null || usuario.getPass() == null || usuario.getNombre() == null){
             JOptionPane.showMessageDialog(null, "Datos incompletos en el registro");
-           return false;
+            return false;
         }
 
         Usuario existente = usuarioDao.EncontrarEmail(usuario.getCorreo());
@@ -43,5 +47,10 @@ public class UsuarioServiceImpl implements UsuarioService {
             return false;
         }
         return usuarioDao.Crear(usuario);
+    }
+
+    @Override
+    public HashMap<Usuario, Rol> listaDeUsuariosAssinee() {
+        return usuarioDao.listadeUsuariosconRol();
     }
 }

@@ -18,8 +18,9 @@ public class TicketDaoImpl implements TicketDao {
         String sql = "UPDATE Tickets SET assignee_id = ? WHERE id_ticket = ?";
         try(Connection conn = ConfigDB.openConnection();
             PreparedStatement prepare = conn.prepareStatement(sql)){
-            prepare.setInt(1, id_ticket);
-            prepare.setInt(2, idUsuario_asignado);
+            prepare.setInt(1, idUsuario_asignado);
+            prepare.setInt(2, id_ticket);
+
             prepare.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Ticket asignado correctamente");

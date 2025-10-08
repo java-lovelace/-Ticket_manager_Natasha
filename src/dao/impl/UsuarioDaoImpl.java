@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UsuarioDaoImpl implements UsuarioDao {
@@ -64,6 +65,42 @@ public class UsuarioDaoImpl implements UsuarioDao {
     @Override
     public List<Rol> EncontrarRol(String nombre) {
         return List.of();
+    }
+
+    @Override
+    public HashMap<Usuario, Rol> listadeUsuariosconRol() {
+        HashMap<Usuario, Rol> usuariosAssignee = new HashMap<>();
+
+        String sql = """
+                SELECT u.id_usuario, u.nombre, u.correo, u.pass,
+                r.id_rol, r.nombre AS rol_nombre
+                FROM Usuarios u
+                INNER JOIN Roles r ON u.id_rol = r.id_rol
+                WHERE r.id_rol = 2
+                """;
+
+        try(Connection conn = ConfigDB.openConnection();
+            PreparedStatement prepare = conn.prepareStatement(sql);
+            ResultSet rs = prepare.executeQuery()){
+            while(rs.next()){
+
+                Usuario usuario = new Usuario();
+                usuario.setId_usuario(rs.getInt("id_usuario"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setCorreo(rs.getString("correo"));
+                usuario.setPass(rs.getString("pass"));
+
+                Rol rol = new Rol();
+                rol.setId_rol(rs.getInt("id_rol"));
+                rol.setNombre(rs.getString("rol_nombre"));
+
+
+                usuariosAssignee.put(usuario, rol);
+            }
+        }catch (SQLException error){
+            System.out.println("Error" + error);
+        }
+        return usuariosAssignee;
     }
 
 

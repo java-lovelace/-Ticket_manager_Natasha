@@ -63,5 +63,19 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
+    @Override
+    public Ticket crear(Ticket ticket) {
+
+        boolean creado = ticketDao.Crear(ticket);
+
+        if(creado){
+            return ticket;
+        }else{
+            System.out.println("no se completo la operacion");
+            return null;
+        }
+
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package view;
 
+import Controller.TicketController;
+
 import javax.swing.*;
 
 public class MenuReporter {
@@ -24,6 +26,7 @@ public class MenuReporter {
 
             switch (option){
                 case "1":
+                    TicketController.crecion();
 
             }
         }while (!option.equals("3"));

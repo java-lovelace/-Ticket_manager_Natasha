@@ -11,6 +11,7 @@ import javax.swing.*;
 
 public class LogOut {
 
+    public static Usuario usuarioLogueado;
     public static void Login(){
         String correo = JOptionPane.showInputDialog("Correo: ");
         String pass = JOptionPane.showInputDialog("Contraseña: ");
@@ -21,6 +22,7 @@ public class LogOut {
 
         if(usuario != null){
             JOptionPane.showMessageDialog(null, "Bienvenido " + usuario.getNombre());
+            usuarioLogueado = usuario;
             int rolNombre = usuario.getRol().getId_rol();
             switch (rolNombre){
                 case 1:
