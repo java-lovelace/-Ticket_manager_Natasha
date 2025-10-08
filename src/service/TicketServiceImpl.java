@@ -77,5 +77,12 @@ public class TicketServiceImpl implements TicketService {
 
     }
 
+    @Override
+    public void asignar(int id_ticket, int assignee_id) {
+
+
+       ticketDao.asignarTicket(id_ticket, assignee_id);
+    }
+
 
 }

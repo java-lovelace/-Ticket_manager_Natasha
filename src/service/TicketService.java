@@ -9,4 +9,6 @@ public interface TicketService {
     public Ticket cambiarEstado(int id_ticket) ;
 
     Ticket crear (Ticket ticket);
+
+    void asignar (int id_ticket, int assignee_id);
 }
