@@ -16,8 +16,6 @@ public class MenuReporter {
                     2. Asignar Ticket
                     3. Salir
                 ================================
-                
-                
                 """;
 
         do{

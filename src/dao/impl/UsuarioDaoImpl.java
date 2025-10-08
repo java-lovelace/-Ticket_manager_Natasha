@@ -88,8 +88,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 usuario.setPass(rs.getString("pass"));
 
                 Rol rol = new Rol();
-                rol.setId_rol(rs.getInt("id_rol"));
-                rol.setNombre(rs.getString("nombre"));
+                rol.setId_rol(rs.getInt("rol_id"));
+                rol.setNombre(rs.getString("rol_nombre"));
 
                 usuario.setRol(rol);
             }

@@ -5,6 +5,7 @@ import dao.impl.UsuarioDaoImpl;
 import domain.Rol;
 import domain.Usuario;
 import service.UsuarioServiceImpl;
+import view.MenuReporter;
 
 import javax.swing.*;
 
@@ -20,6 +21,14 @@ public class LogOut {
 
         if(usuario != null){
             JOptionPane.showMessageDialog(null, "Bienvenido " + usuario.getNombre());
+            int rolNombre = usuario.getRol().getId_rol();
+            switch (rolNombre){
+                case 1:
+                    MenuReporter.Reportes();
+                    break;
+                case 2:
+                    break;
+            }
         }else{
             JOptionPane.showMessageDialog(null, "Correo o contraseña incorrectos");
         }
