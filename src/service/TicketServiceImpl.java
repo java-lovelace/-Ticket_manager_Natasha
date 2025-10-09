@@ -9,7 +9,9 @@ import domain.Estado;
 import domain.Ticket;
 
 
+import javax.swing.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TicketServiceImpl implements TicketService {
     private TicketDao ticketDao = new TicketDaoImpl();
@@ -84,5 +86,22 @@ public class TicketServiceImpl implements TicketService {
        ticketDao.asignarTicket(id_ticket, assignee_id);
     }
 
+    @Override
+    public List<Ticket> EncontrarTickets(String nombreEstado, String nombreCategoria) {
 
+        if(nombreEstado == null || nombreEstado.isEmpty() ||
+            nombreCategoria == null || nombreCategoria.isEmpty()){
+            throw new IllegalArgumentException("Estado y Categoria son requeridos");
+        }
+
+        List<Ticket> tickets = ticketDao.estadoCategoria(nombreEstado, nombreCategoria);
+
+        return tickets;
+    }
+
+    @Override
+    public List<Ticket> listadodeTickets() {
+      return ticketDao.listadoTickets();
+
+    }
 }

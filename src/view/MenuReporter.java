@@ -15,8 +15,7 @@ public class MenuReporter {
                         MENÚ TICKETS
                ================================
                     1. Crear Ticket
-                    2. Asignar Ticket
-                    3. Salir
+                    2. Salir
                 ================================
                 """;
 
@@ -27,9 +26,10 @@ public class MenuReporter {
             switch (option){
                 case "1":
                     TicketController.crecion();
-
+                default:
+                    JOptionPane.showMessageDialog(null, "Opcion no valida");
             }
-        }while (!option.equals("3"));
+        }while (!option.equals("2"));
 
     }
 }

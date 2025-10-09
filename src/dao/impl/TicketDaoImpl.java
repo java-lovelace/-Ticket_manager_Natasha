@@ -120,6 +120,139 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
+    public List<Ticket> estadoCategoria(String nombreEstado, String nombreCategoria) {
+        List<Ticket> tickets = new ArrayList<>();
+        String sql = """
+            SELECT 
+                t.id_ticket, 
+                t.titulo, 
+                t.descripcion,
+                e.id_estado, 
+                e.nombre AS estado, 
+                c.id_categoria, 
+                c.nombre AS categoria
+            FROM Tickets t
+            JOIN Estados e ON t.id_estado = e.id_estado
+            JOIN Categorias c ON t.id_categoria = c.id_categoria
+            WHERE e.nombre = ? COLLATE utf8mb4_general_ci 
+              AND c.nombre = ? COLLATE utf8mb4_general_ci
+            """;
+        try (Connection conn = ConfigDB.openConnection();
+             PreparedStatement prepare = conn.prepareStatement(sql)) {
+
+            prepare.setString(1, nombreEstado);
+            prepare.setString(2, nombreCategoria);
+
+            ResultSet rs = prepare.executeQuery();
+
+            while (rs.next()) {
+                Ticket ticket = new Ticket();
+                ticket.setId_ticket(rs.getInt("id_ticket"));
+                ticket.setTitulo(rs.getString("titulo"));
+                ticket.setDescripcion(rs.getString("descripcion"));
+
+                Estado estado = new Estado();
+                estado.setId_estado(rs.getInt("id_estado"));
+                estado.setNombre(rs.getString("estado"));
+                ticket.setEstado(estado);
+
+                Categoria categoria = new Categoria();
+                categoria.setId_categoria(rs.getInt("id_categoria"));
+                categoria.setNombre(rs.getString("categoria"));
+                ticket.setCategoria(categoria);
+
+                tickets.add(ticket);
+            }
+
+        } catch (SQLException error) {
+            error.printStackTrace();
+            System.out.println("Error: " + error.getMessage());
+        }
+        return tickets;
+    }
+
+    @Override
+    public List<Ticket> listadoTickets() {
+        List<Ticket> reportesAsignaciones = new ArrayList<>();
+        String sql = """
+                SELECT            
+                r.nombre AS reporter_nombre,
+                a.nombre AS assignee_nombre,      
+                c.nombre AS categoria,
+                e.nombre AS estado
+                FROM Tickets t
+                JOIN Categorias c ON t.id_categoria = c.id_categoria
+                JOIN Estados e ON t.id_estado = e.id_estado
+                JOIN Usuarios a ON t.assignee_id = a.id_usuario
+                JOIN Usuarios r ON t.reporter_id = r.id_usuario;
+                """;
+
+        try (Connection conn = ConfigDB.openConnection();
+            PreparedStatement prepare = conn.prepareStatement(sql);
+            ResultSet rs = prepare.executeQuery()){
+
+            while(rs.next()){
+                Ticket ticket = new Ticket();
+
+                Usuario reporter = new Usuario();
+                reporter.setNombre(rs.getString("reporter_nombre"));
+                ticket.setReporter(reporter);
+
+                Usuario assignee = new Usuario();
+                assignee.setNombre(rs.getString("assignee_nombre"));
+                ticket.setAssignee(assignee);
+
+                Categoria categoria = new Categoria();
+                categoria.setNombre(rs.getString("categoria"));
+                ticket.setCategoria(categoria);
+
+                Estado estado = new Estado();
+                estado.setNombre(rs.getString("estado"));
+                ticket.setEstado(estado);
+
+                reportesAsignaciones.add(ticket);
+
+            }
+
+
+        }catch (SQLException error){
+            System.out.println("Error" + error);
+        }
+        return reportesAsignaciones;
+    }
+
+    @Override
+    public List<String> topCategorias() {
+        List<String> topCate = new ArrayList<>();
+        String sql = """
+                SELECT
+                c.nombre AS categoria,
+                COUNT(t.id_ticket) AS total_tickets
+                FROM Tickets t
+                JOIN Categorias c
+                GROUP BY c.id_categoria, c.nombre
+                ORDER BY total_tickets DESC LIMIT 3;
+                """;
+
+        try(Connection conn = ConfigDB.openConnection();
+            PreparedStatement prepare = conn.prepareStatement(sql);
+            ResultSet rs = prepare.executeQuery()){
+
+            while (rs.next()) {
+
+                String categoria = rs.getString("categoria");
+                int total = rs.getInt("total_tickets");
+                topCate.add( "🏷️ " + categoria + " → " + total + " tickets");
+            }
+
+        }catch (SQLException error){
+            System.out.println("error" + error.getMessage());
+        }
+        return topCate;
+    }
+
+
+    @Override
     public boolean Crear(Ticket obj) {
         String sql = "INSERT INTO Tickets (titulo, descripcion, reporter_id, assignee_id, id_categoria, id_estado) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConfigDB.openConnection() ;
@@ -246,7 +379,7 @@ public class TicketDaoImpl implements TicketDao {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "❌ Error al listar los tickets: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al listar los tickets: " + e.getMessage());
         } finally {
             ConfigDB.closeConnection();
         }

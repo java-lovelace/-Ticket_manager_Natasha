@@ -5,6 +5,7 @@ import dao.impl.UsuarioDaoImpl;
 import domain.Rol;
 import domain.Usuario;
 import service.UsuarioServiceImpl;
+import view.MenuAssignee;
 import view.MenuReporter;
 
 import javax.swing.*;
@@ -29,6 +30,7 @@ public class LogOut {
                     MenuReporter.Reportes();
                     break;
                 case 2:
+                    MenuAssignee.menu();
                     break;
             }
         }else{

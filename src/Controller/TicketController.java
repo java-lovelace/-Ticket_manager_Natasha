@@ -72,4 +72,40 @@ public class TicketController {
         ticketService.crear(ticket);
         JOptionPane.showMessageDialog(null, "ticket creado exitosamente y asignado a: " + assignee.getNombre());
     }
+
+    public static void EncontrarCategoriaEstado (){
+        String nombreEstado = JOptionPane.showInputDialog("Estado: ");
+        String nombreCategoria = JOptionPane.showInputDialog("Categoria: ");
+
+
+        List<Ticket> tickets = ticketService.EncontrarTickets(nombreEstado, nombreCategoria);
+
+        if(tickets.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No fueron encontrados tickets en la base de datos");
+
+        }else {
+            StringBuilder resultado = new StringBuilder("Tickets Encontrados");
+            for(Ticket t : tickets){
+                resultado.append("ID: ").append((t.getId_ticket()));
+                resultado.append(", Titulo: ").append(t.getTitulo());
+                resultado.append(", Estado: ").append(t.getEstado());
+                resultado.append(", Categoria: ").append(t.getCategoria());
+
+            }
+            JOptionPane.showMessageDialog(null, resultado.toString());
+        }
+    }
+    public static void mostrarlistado(){
+        List<Ticket> lista = ticketService.listadodeTickets();
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "La lista está vacía");
+        } else {
+            StringBuilder builder = new StringBuilder("📋 Listado de Tickets:\n\n");
+            for (Ticket t : lista) {
+                builder.append(t.mostrarInfo());
+            }
+            JOptionPane.showMessageDialog(null, builder.toString());
+        }
+
+    }
 }

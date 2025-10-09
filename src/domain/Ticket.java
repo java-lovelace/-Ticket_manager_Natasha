@@ -112,4 +112,13 @@ public class Ticket {
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at;
     }
+
+    public String mostrarInfo() {
+        return "📄 Ticket: " +
+                "\n🧍‍♀️ Reporter: " + reporter.getNombre() +
+                "\n👨‍💻 Asignado a: " + assignee.getNombre() +
+                "\n🏷️ Categoría: " + categoria.getNombre() +
+                "\n📌 Estado: " + estado.getNombre() +
+                "\n------------------------------\n";
+    }
 }
