@@ -21,9 +21,10 @@ public class MenuAssignee {
             switch (option){
                 case "1"-> TicketController.EncontrarCategoriaEstado();
                 case "2" -> TicketController.mostrarlistado();
-                case "3"-> JOptionPane.showMessageDialog(null, "Saliendo del sistema");
+                case "3" -> TicketController.mostrarTop();
+                case "4"-> JOptionPane.showMessageDialog(null, "Saliendo del sistema");
                 default -> JOptionPane.showMessageDialog(null, "Opcion no valida");
             }
-        }while (!option.equals("3"));
+        }while (!option.equals("4"));
     }
 }

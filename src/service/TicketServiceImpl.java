@@ -104,4 +104,14 @@ public class TicketServiceImpl implements TicketService {
       return ticketDao.listadoTickets();
 
     }
+
+    @Override
+    public List<String> obtenerTop() {
+        List<String> top = ticketDao.topCategorias();
+
+        if(top.isEmpty()){
+            System.out.println("No existen categorias");
+        }
+        return top;
+    }
 }

@@ -17,4 +17,6 @@ public interface TicketService {
     List<Ticket> EncontrarTickets (String nombreEstado, String nombreCategoria);
 
     List<Ticket> listadodeTickets();
+
+    List<String> obtenerTop ();
 }

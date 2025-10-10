@@ -108,4 +108,16 @@ public class TicketController {
         }
 
     }
+    public static void mostrarTop () {
+        List<String> topCategorias = ticketService.obtenerTop();
+        if(topCategorias.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay datos");
+        }else{
+            StringBuilder mensaje = new StringBuilder();
+            for(String s : topCategorias){
+                mensaje.append(s).append("\n");
+            }
+            JOptionPane.showMessageDialog(null, mensaje.toString());
+        }
+    }
 }
